@@ -33,11 +33,53 @@
             }
         });
     </script>
-    
+
 </head>
 <body>
     <div id="app">
         <!-- Navigation will go here -->
+        <nav class="navbar bg-dark border-bottom border-body navbar-expand-lg" data-bs-theme="dark">
+            <div class="container-fluid">
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                  <li class="nav-item dropdown">
+                    <a class="nav-link active dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Add
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="addDropdown">
+                      <li><a class="dropdown-item" href="#">Category</a></li>
+                      <li><a class="dropdown-item" href="#">List</a></li>
+                      <li><a class="dropdown-item" href="#">Task</a></li>
+                      <li><a class="dropdown-item" href="#">Subtask</a></li>
+                    </ul>
+                  </li>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link active dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Sort by deadline
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="#">Ascending</a></li>
+                      <li><a class="dropdown-item" href="#">Descending</a></li>
+                    </ul>
+                  </li>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link active dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Sort by progress
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Ascending</a></li>
+                        <li><a class="dropdown-item" href="#">Descending</a></li>
+                    </ul>
+                  </li>
+                </ul>
+                <!-- Search for tasks, lists, categories -->
+                <form class="d-flex" role="search">
+                  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                  <button class="btn btn-outline-light" type="submit">Search</button>
+                </form>
+              </div>
+            </div>
+          </nav>
         <div id="main">
             <!-- To-Do List categories, lists, tasks, and subtasks will be here -->
         </div>
