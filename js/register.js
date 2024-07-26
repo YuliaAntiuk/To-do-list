@@ -36,6 +36,18 @@ document.addEventListener('DOMContentLoaded', function(){
             return;
         }
 
+        //email and password validation
+
+        if (!validateEmail(username)) {
+            alert('Invalid email format!');
+            return;
+        }
+
+        if (!validatePassword(password)) {
+            alert('Password must be at least 8 characters long!');
+            return;
+        }
+
         createUserWithEmailAndPassword(auth, username, password)
             .then(userCredential => {
                 console.log('User registered:', userCredential.user);
@@ -43,7 +55,12 @@ document.addEventListener('DOMContentLoaded', function(){
                 window.location.href = 'index.html';
             })
             .catch(error => {
-                console.error('Error registering user:', error);
+                if (error.code === 'auth/email-already-in-use') {
+                    alert('Email is already registered. Please use another email or log in.');
+                } else {
+                    alert('Error registering user: ' + error.message);
+                }
+                registerForm.reset();
             });
     });
 
@@ -60,7 +77,26 @@ document.addEventListener('DOMContentLoaded', function(){
                 window.location.href = 'index.html';
             })
             .catch(error => {
-                console.error('Error logging in user:', error);
+                if (error.code === 'auth/user-not-found') {
+                    alert('No user found with this email. Please register first.');
+                } else if (error.code === 'auth/wrong-password') {
+                    alert('Incorrect password. Please try again.');
+                } else if (error.code === 'auth/invalid-credential'){
+                    alert('Invalid credentials: check email and password')
+                }
+                else {
+                    alert('Error logging in user: ' + error.message);
+                }
+                loginForm.reset();
             });
     })
+
+    function validateEmail(email){
+        const re = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+        return re.test(email);
+    }
+
+    function validatePassword(password){
+        return password.length >= 8;
+    }
 });
