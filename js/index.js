@@ -50,9 +50,8 @@ document.addEventListener('DOMContentLoaded', function(){
 
         createUserWithEmailAndPassword(auth, username, password)
             .then(userCredential => {
-                console.log('User registered:', userCredential.user);
                 // Redirect to the main app page
-                window.location.href = 'index.html';
+                window.location.href = 'main.html';
             })
             .catch(error => {
                 if (error.code === 'auth/email-already-in-use') {
@@ -72,9 +71,8 @@ document.addEventListener('DOMContentLoaded', function(){
         
         signInWithEmailAndPassword(auth, username, password)
             .then(userCredential => {
-                console.log('User logged in:', userCredential.user);
                 // Redirect to the main app page
-                window.location.href = 'index.html';
+                window.location.href = 'main.html';
             })
             .catch(error => {
                 if (error.code === 'auth/user-not-found') {
