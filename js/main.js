@@ -64,10 +64,11 @@ async function loadCategories(uid) {
 function displayCategory(category) {
     const categoryContainer = document.createElement('div');
     categoryContainer.className = 'card mb-3';
+    categoryContainer.style.maxWidth = '18rem';
     categoryContainer.innerHTML = `
-        <div class="card-body">
+        <div class="card-header d-flex justify-content-between align-items-center">
             <h5 class="card-title">${category.name}</h5>
-            <p class="card-text">Category content goes here...</p>
+            <button class="btn btn-sm btn-link"><i class="bi bi-three-dots-vertical"></i></button>
         </div>
     `;
     document.getElementById('main').appendChild(categoryContainer);
