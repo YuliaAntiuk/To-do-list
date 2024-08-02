@@ -1,0 +1,12 @@
+.modal-label {
+    font-size: medium;
+    margin-top: 10px;
+}
+
+.modal-input {
+    height: 30px;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}

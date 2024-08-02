@@ -1,6 +1,6 @@
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, doc, setDoc, collection, query, where, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getFirestore, collection, query, where, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -18,18 +18,34 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// Check user authentication state
-onAuthStateChanged(auth, async user => {
-    if (user) {
-        // User is signed in
-        const uid = user.uid;
-        document.getElementById('user-email').textContent = user.email;
-        // Load existing categories for the user
-        loadCategories(uid);
-    } else {
-        // User is signed out
-        window.location.href = 'index.html';
-    }
+document.addEventListener('DOMContentLoaded', () => {
+    // Check user authentication state
+    onAuthStateChanged(auth, async user => {
+        if (user) {
+            // User is signed in
+            const uid = user.uid;
+            document.getElementById('user-email').textContent = user.email;
+            // Load existing categories for the user
+            loadCategories(uid);
+        } else {
+            // User is signed out
+            window.location.href = 'index.html';
+        }
+    });
+
+    document.getElementById('add-category-btn').addEventListener('click', async () => {
+        const categoryName = prompt('Enter category name:');
+        if (categoryName) {
+            const user = auth.currentUser;
+            const newCategory = {
+                name: categoryName,
+                userId: user.uid
+            };
+            const docRef = await addDoc(collection(db, "categories"), newCategory);
+            newCategory.id = docRef.id;
+            displayCategory(newCategory);
+        }
+    });
 });
 
 async function loadCategories(uid) {
@@ -53,17 +69,3 @@ function displayCategory(category) {
     `;
     document.getElementById('main').appendChild(categoryContainer);
 }
-
-document.getElementById('add-category-btn').addEventListener('click', async () => {
-    const categoryName = prompt('Enter category name:');
-    if (categoryName) {
-        const user = auth.currentUser;
-        const newCategory = {
-            name: categoryName,
-            userId: user.uid
-        };
-        const docRef = await addDoc(collection(db, "categories"), newCategory);
-        newCategory.id = docRef.id;
-        displayCategory(newCategory);
-    }
-});
