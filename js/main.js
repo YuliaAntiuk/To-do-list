@@ -33,9 +33,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    document.getElementById('add-category-btn').addEventListener('click', async () => {
-        const categoryName = prompt('Enter category name:');
-        if (categoryName) {
+    document.querySelector('.btn-add').addEventListener('click', async () => {
+        const categoryName = document.getElementById('category-name').value;
+        if(categoryName){
             const user = auth.currentUser;
             const newCategory = {
                 name: categoryName,
@@ -44,8 +44,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const docRef = await addDoc(collection(db, "categories"), newCategory);
             newCategory.id = docRef.id;
             displayCategory(newCategory);
+            document.getElementById('category-name').value = ''; //to clear the input field
+            const modal = bootstrap.Modal.getInstance( document.getElementById('category-modal'));
+            modal.hide();
         }
-    });
+    })
 });
 
 async function loadCategories(uid) {
