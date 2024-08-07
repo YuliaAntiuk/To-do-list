@@ -1,7 +1,6 @@
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, collection, query, where, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-import { doc, deleteDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { doc, deleteDoc, updateDoc, getFirestore, collection, query, where, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -34,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    document.querySelector('.btn-add').addEventListener('click', async () => {
+    document.getElementById('btn-add-category-modal').addEventListener('click', async () => {
         const categoryName = document.getElementById('category-name').value;
         if(categoryName){
             const user = auth.currentUser;
@@ -49,6 +48,47 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('category-name').value = ''; //to clear the input field
             const modal = bootstrap.Modal.getInstance( document.getElementById('category-modal'));
             modal.hide();
+        }
+    })
+
+    document.getElementById('btn-add-list-modal').addEventListener('click', async () => {
+        const categoryName = document.getElementById('cat-name').value;
+        const listName = document.getElementById('list-name').value;
+        const listPriority = document.getElementById('list-priority').value;
+        if(categoryName && listName && listPriority){
+            const user = auth.currentUser;
+
+            //get the name of category
+            const categoriesRef = collection(db, "categories");
+            const q = query(categoriesRef, where("userId", "==", user.uid), where("name", "==", categoryName));
+            const querySnapshot = await getDocs(q);
+
+            if(!querySnapshot.empty){
+                querySnapshot.forEach(async (doc) => {
+                    const categoryData = doc.data();
+                    categoryData.lists.push({
+                        name: listName,
+                        priority: listPriority,
+                        tasks: []
+                    });
+
+                    //update the category
+                    const categoryDocRef = doc(db, "categories", docSnap.id);
+                    await updateDoc(categoryDocRef, {
+                        lists: categoryData.lists
+                    });
+                    displayCategory(categoryData);
+                });
+                document.getElementById('cat-name').value = ''; 
+                document.getElementById('list-name').value = ''; 
+                document.getElementById('list-priority').value = ''; 
+                const modal = bootstrap.Modal.getInstance( document.getElementById('list-modal'));
+                modal.hide();
+            } else {
+                alert("Category not found!");
+            }
+        } else{
+            alert("Please fill in all fields");
         }
     })
 });
@@ -78,7 +118,14 @@ function displayCategory(category) {
                 </ul>
             </div>
             <div class="card-body">
-                <!-- Lists or additional content will go here -->
+                <div id="lists-container-${category.id}">
+                    ${category.lists.map(list => `
+                        <div class="list">
+                            <h6>${list.name}</h6>
+                            <!-- Add list tasks display here -->
+                        </div>
+                    `).join('')}
+                </div>
             </div>
         </div>
     `;
@@ -103,7 +150,7 @@ function showEditModal(categoryId, categoryContainer) {
     const editModal = new bootstrap.Modal(document.getElementById('edit-category-modal'));
     editModal.show();
     document.getElementById('edit-category-name').value = categoryContainer.querySelector('.card-title').textContent;
-    editModal.querySelector('.btn-save-changes').addEventListener('click', async () => {
+    document.getElementById('btn-save-changes').addEventListener('click', async () => {
         const newName = document.getElementById('edit-category-name').value;
         if (newName) {
             await editCategoryName(categoryId, categoryContainer, newName);

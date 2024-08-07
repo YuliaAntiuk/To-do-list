@@ -101,7 +101,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-dark btn-add">Add</button>
+                  <button id="btn-add-category-modal" type="button" class="btn btn-dark">Add</button>
                 </div>
               </div>
             </div>
@@ -120,7 +120,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-dark btn-save-changes">Save</button>
+                            <button id="btn-save-changes" type="button" class="btn btn-dark">Save</button>
                         </div>
                     </div>
                 </div>
@@ -138,7 +138,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-danger btn-confirm-delete">Delete</button>
+                            <button id="btn-confirm-delete" type="button" class="btn btn-danger">Delete</button>
                         </div>
                     </div>
                 </div>
@@ -154,15 +154,15 @@
                 <div class="modal-body">
                   <p>Lists will help you to group similar tasks from one category. You can set priorities for lists with numbers from 1 to 10.</p>
                   <label class="modal-label" for="list-name">Enter category name:</label>
-                  <input id="list-name" class="modal-input" name="name-category">
+                  <input id="cat-name" class="modal-input" name="name-category">
                   <label class="modal-label" for="list-name">Enter list name:</label>
                   <input id="list-name" class="modal-input" name="list"><br>
                   <label class="modal-label" for="list-name">Enter list priority:</label>
-                  <input id="list-name" class="modal-input" name="list-priority" type="number" min="1" max="10">
+                  <input id="list-priority" class="modal-input" name="list-priority" type="number" min="1" max="10">
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-dark btn-add">Add</button>
+                  <button id="btn-add-list-modal" type="button" class="btn btn-dark">Add</button>
                 </div>
               </div>
             </div>
