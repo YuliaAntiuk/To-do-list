@@ -53,7 +53,7 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="addDropdown">
                                 <li><a class="dropdown-item" id="add-category-btn" data-bs-toggle="modal" data-bs-target="#category-modal" href="#">Category</a></li>
-                                <li><a class="dropdown-item" href="#">List</a></li>
+                                <li><a class="dropdown-item" id="add-list-btn" data-bs-toggle="modal" data-bs-target="#list-modal" href="#">List</a></li>
                                 <li><a class="dropdown-item" href="#">Task</a></li>
                             </ul>
                         </li>
@@ -85,28 +85,93 @@
             </div>
         </nav>
       </div>
-        <div id="main">
-            <!-- To-Do List categories, lists, tasks, and subtasks will be here -->
-            <div class="row" id="categories-row">
-                <!-- Categories will be appended here -->
-            </div>
-            <div class="modal fade" id="category-modal" tabindex="-1" aria-labelledby="categoryModalLabel" aria-hidden="true">
-              <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="categoryModalLabel">Create a Category</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                    <label class="modal-label" for="category-name">Enter category name:</label>
-                    <input id="category-name" class="modal-input" name="category">
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-dark btn-add">Add</button>
-                  </div>
+      <div id="modals">
+        <!--Adding the category-->
+        <div class="modal fade" id="category-modal" tabindex="-1" aria-labelledby="categoryModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="categoryModalLabel">Create a Category</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <p>Group your tasks with categories. Create separate categories for different purposes!</p>
+                  <label class="modal-label" for="category-name">Enter category name:</label>
+                  <input id="category-name" class="modal-input" name="category">
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-dark btn-add">Add</button>
                 </div>
               </div>
+            </div>
+        </div>
+        <!-- Editing a category name -->
+        <div class="modal fade" id="edit-category-modal" tabindex="-1" aria-labelledby="editCategoryModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="editCategoryModalLabel">Edit Category Name</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <label class="modal-label" for="edit-category-name">Enter new category name:</label>
+                            <input id="edit-category-name" class="modal-input" name="edit-category">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-dark btn-save-changes">Save</button>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <!-- Deleting the category -->
+        <div class="modal fade" id="delete-category-modal" tabindex="-1" aria-labelledby="deleteCategoryModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="deleteCategoryModalLabel">Delete Category</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Are you sure you want to delete this category?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-danger btn-confirm-delete">Delete</button>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <!--Adding the list-->
+        <div class="modal fade" id="list-modal" tabindex="-1" aria-labelledby="listModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="listModalLabel">Create a List</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <p>Lists will help you to group similar tasks from one category. You can set priorities for lists with numbers from 1 to 10.</p>
+                  <label class="modal-label" for="list-name">Enter category name:</label>
+                  <input id="list-name" class="modal-input" name="name-category">
+                  <label class="modal-label" for="list-name">Enter list name:</label>
+                  <input id="list-name" class="modal-input" name="list"><br>
+                  <label class="modal-label" for="list-name">Enter list priority:</label>
+                  <input id="list-name" class="modal-input" name="list-priority" type="number" min="1" max="10">
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-dark btn-add">Add</button>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+      <div id="main">
+        <!-- To-Do List categories, lists, tasks, and subtasks will be here -->
+            <div class="row" id="categories-row">
+                <!-- Categories will be appended here -->
             </div>
         </div>
     </div>

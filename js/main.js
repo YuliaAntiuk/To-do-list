@@ -84,25 +84,49 @@ function displayCategory(category) {
     `;
     document.getElementById('categories-row').appendChild(categoryContainer);
     // Add event listeners for the dropdown items
-    document.getElementById(`delete-category-${category.id}`).addEventListener('click', () => deleteCategory(category.id, categoryContainer));
-    document.getElementById(`edit-name-category-${category.id}`).addEventListener('click', () => editCategoryName(category.id, categoryContainer));
+    document.getElementById(`delete-category-${category.id}`).addEventListener('click', () => showDeleteModal(category.id, categoryContainer));
+    document.getElementById(`edit-name-category-${category.id}`).addEventListener('click', () => showEditModal(category.id, categoryContainer));
 }
 
+// Function to show the delete confirmation modal
+function showDeleteModal(categoryId, categoryContainer) {
+    const deleteModal = new bootstrap.Modal(document.getElementById('delete-category-modal'));
+    deleteModal.show();
+    document.getElementById('btn-confirm-delete').addEventListener('click', async () => {
+        await deleteCategory(categoryId, categoryContainer);
+        deleteModal.hide();
+    }, { once: true });
+}
+
+// Function to show the edit modal
+function showEditModal(categoryId, categoryContainer) {
+    const editModal = new bootstrap.Modal(document.getElementById('edit-category-modal'));
+    editModal.show();
+    document.getElementById('edit-category-name').value = categoryContainer.querySelector('.card-title').textContent;
+    editModal.querySelector('.btn-save-changes').addEventListener('click', async () => {
+        const newName = document.getElementById('edit-category-name').value;
+        if (newName) {
+            await editCategoryName(categoryId, categoryContainer, newName);
+            editModal.hide();
+        }
+    }, { once: true });
+}
+
+// Function to delete a category
 async function deleteCategory(categoryId, categoryContainer) {
-    if(confirm('Delete the category?')){
-        await deleteDoc(doc(db, "categories", categoryId));
-        categoryContainer.remove();
-    } 
+    // Remove from Firestore
+    await deleteDoc(doc(db, "categories", categoryId));
+    // Remove from DOM
+    categoryContainer.remove();
 }
 
-async function editCategoryName(categoryId, categoryContainer) {
-    const newName = prompt('Enter the new name for the category:');
-    if (newName) {
-        // Update in Firestore
-        const categoryRef = doc(db, "categories", categoryId);
-        await updateDoc(categoryRef, { name: newName });
+// Function to edit category name
+async function editCategoryName(categoryId, categoryContainer, newName) {
+    // Update in Firestore
+    const categoryRef = doc(db, "categories", categoryId);
+    await updateDoc(categoryRef, { name: newName });
 
-        // Update in DOM
-        categoryContainer.querySelector('.card-title').textContent = newName;
-    }
+    // Update in DOM
+    categoryContainer.querySelector('.card-title').textContent = newName;
 }
+
